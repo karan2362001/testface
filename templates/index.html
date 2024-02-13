@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <video id="video" width="640" height="480" autoplay></video>
+    <button id="capture">Capture</button>
+    
+    <form id="imageForm" method="post" action="/receive_image/">
+        {% csrf_token %}
+        <input type="hidden" id="imageData" name="image_data">
+    </form>
+    
+    <script>
+    navigator.mediaDevices.getUserMedia({ video: true })
+      .then(function(stream) {
+        var video = document.getElementById('video');
+        video.srcObject = stream;
+      })
+      .catch(function(err) {
+        console.log("An error occurred: " + err);
+      });
+    
+    document.getElementById('capture').addEventListener('click', function() {
+      var canvas = document.createElement('canvas');
+      var video = document.getElementById('video');
+      var context = canvas.getContext('2d');
+      canvas.width = video.videoWidth;
+      canvas.height = video.videoHeight;
+      context.drawImage(video, 0, 0, canvas.width, canvas.height);
+      
+      var imageData = canvas.toDataURL('image/jpeg');
+      
+      // Set image data to the hidden form field
+      document.getElementById('imageData').value = imageData;
+      
+      // Submit the form
+      document.getElementById('imageForm').submit();
+    });
+    </script>
+
+</body>
+</html>
