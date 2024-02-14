@@ -3,11 +3,26 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Webcam Feed</title>
+    <style>
+        #webcam {
+            width: 640px;
+            height: 480px;
+            border: 1px solid #ccc;
+        }
+    </style>
 </head>
 <body>
-   
-    {{face}}
-    
+    <img id="webcam" src="" alt="Webcam Feed">
+    <script>
+        // Function to update the webcam feed
+        function updateWebcam() {
+            var img = document.getElementById('webcam');
+            img.src = '/video_feed/'; // URL to fetch the webcam feed from the server
+        }
+
+        // Update the webcam feed every 100 milliseconds (adjust as needed)
+        setInterval(updateWebcam, 100);
+    </script>
 </body>
 </html>
